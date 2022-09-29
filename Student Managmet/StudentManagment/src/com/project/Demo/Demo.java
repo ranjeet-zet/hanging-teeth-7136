@@ -2,17 +2,18 @@ package com.project.Demo;
 
 import com.project.Excaption.CourseException;
 import com.project.Excaption.StudentExcption;
+import com.project.been.Course;
 import com.project.been.Student;
 import com.project.inpliment.StudentPerfome;
 
 public class Demo {
 
-	public static void main(String[] args) {
+	public static void main(String[] args){
 
 		StudentPerfome sp = new StudentPerfome();
 
 		try {
-			String pri = sp.addCoures("JavaScript", 10000);
+			Course pri = sp.searchCourse("javascript");
 
 			System.out.println(pri);
 
