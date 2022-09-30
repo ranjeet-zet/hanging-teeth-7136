@@ -13,7 +13,7 @@ public class Demo {
 		StudentPerfome sp = new StudentPerfome();
 
 		try {
-			Course pri = sp.searchCourse("javascript");
+			String pri = sp.createBatch("fw19", 60, "hybernate");
 
 			System.out.println(pri);
 

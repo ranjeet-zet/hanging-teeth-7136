@@ -1,46 +1,27 @@
 package com.project.been;
 
 public class Batch {
-
-	private int cid;
-	private String cname;
-	private int fee;
+	private int bid;
 	private String bname;
-
+	private int seat;
+	
 	public Batch() {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Batch(int cid, String cname, int fee, String bname) {
+	public Batch(int bid, String bname, int seat) {
 		super();
-		this.cid = cid;
-		this.cname = cname;
-		this.fee = fee;
+		this.bid = bid;
 		this.bname = bname;
+		this.seat = seat;
 	}
 
-	public int getCid() {
-		return cid;
+	public int getBid() {
+		return bid;
 	}
 
-	public void setCid(int cid) {
-		this.cid = cid;
-	}
-
-	public String getCname() {
-		return cname;
-	}
-
-	public void setCname(String cname) {
-		this.cname = cname;
-	}
-
-	public int getFee() {
-		return fee;
-	}
-
-	public void setFee(int fee) {
-		this.fee = fee;
+	public void setBid(int bid) {
+		this.bid = bid;
 	}
 
 	public String getBname() {
@@ -50,5 +31,15 @@ public class Batch {
 	public void setBname(String bname) {
 		this.bname = bname;
 	}
+
+	public int getSeat() {
+		return seat;
+	}
+
+	public void setSeat(int seat) {
+		this.seat = seat;
+	}
+	
+
 
 }

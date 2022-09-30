@@ -268,9 +268,60 @@ public class StudentPerfome implements StudentInterface {
 	}
 
 	@Override
-	public String createBatch(Batch batch) throws CourseException {
+	public String createBatch(String bname, int seat,String coursename) throws CourseException {
+		coursename=coursename.toLowerCase();
+		bname=bname.toLowerCase();
+		String ret = "Batch Create fail...";
 
-		return null;
+		try (Connection conn = DBC.ProvideConnection()) {
+			PreparedStatement ps = conn.prepareStatement("select * from batch where bname=?");
+			ps.setString(1, bname);
+
+			ResultSet rs = ps.executeQuery();
+			if (rs.next()) {
+				ret = "Batch name already exit...";
+			} else {
+				
+				PreparedStatement ps1=conn.prepareStatement("select * from course where cname=?");
+				ps1.setString(1, coursename);
+				
+				ResultSet rs1= ps1.executeQuery();
+				if(rs1.next()) {
+					PreparedStatement ps2 = conn.prepareStatement("insert into batch(bname,seat) values(?,?)");
+					ps2.setString(1, bname);
+					ps2.setInt(2, seat);
+					int x= ps2.executeUpdate();
+					
+					if(x>0) {
+						ret="Batch add succesfully...";
+						
+						PreparedStatement ps3=conn.prepareStatement("select * from batch where bname=?");
+						ps3.setString(1, bname);
+						
+						ResultSet rs2= ps3.executeQuery();
+						if(rs2.next()) {
+							PreparedStatement ps4 = conn.prepareStatement("insert into course_batch(bid,cname) values(?,?)");
+							ps4.setInt(1, rs2.getInt("bid"));
+							ps4.setString(2, coursename);
+							int y= ps4.executeUpdate();
+							
+						}else {
+							ret="Some error...";
+						}
+		
+					}else {
+						ret="Batch add fail...";
+					}
+				}else {
+					ret="Enter a valid course name...";
+				}
+			}
+
+		} catch (Exception e) {
+			ret = e.getMessage();
+		}
+
+		return ret;
 	}
 
 	@Override
