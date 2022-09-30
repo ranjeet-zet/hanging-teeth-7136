@@ -101,7 +101,6 @@ public class StudentPerfome implements StudentInterface {
 		} catch (Exception e) {
 			throw new StudentExcption(e.getMessage());
 		}
-
 	}
 
 	@Override
@@ -430,7 +429,9 @@ public class StudentPerfome implements StudentInterface {
 					s.setName(rs1.getString("name"));
 					s.setRoll(rs1.getInt("roll"));
 					s.setPass(rs1.getString("password"));
+					
 					students.add(s);
+					
 				}		
 			}else {
 				throw new BatchException("Batch name not Valid...");
@@ -505,6 +506,28 @@ public class StudentPerfome implements StudentInterface {
 			ret = e.getMessage();
 		}
 		return ret;
+	}
+
+	@Override
+	public List<Course> getAllCourse() throws CourseException {
+		List<Course> courses = new ArrayList<>();
+		
+		
+		try  (Connection conn = DBC.ProvideConnection()) {
+			PreparedStatement ps=conn.prepareStatement("select * from course");
+			ResultSet rs=ps.executeQuery();
+			while(rs.next()) {
+				int ci=rs.getInt("cid");
+				String cn=rs.getString("cname");
+				int f=rs.getInt("fee");
+				Course cc=new Course(ci, cn, f);
+				courses.add(cc);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			new BatchException("No course found");
+		}
+		return courses;
 	}
 
 }

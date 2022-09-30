@@ -39,6 +39,11 @@ public class Batch {
 	public void setSeat(int seat) {
 		this.seat = seat;
 	}
+
+	@Override
+	public String toString() {
+		return "Batch [bid=" + bid + ", bname=" + bname + ", seat=" + seat + "]";
+	}
 	
 
 

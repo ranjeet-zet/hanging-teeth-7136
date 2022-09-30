@@ -30,14 +30,14 @@ public interface StudentInterface {
 
 	public Course searchCourse(String cname) throws CourseException;
 
-	public String createBatch(String bname,int seat,String coursename) throws CourseException, BatchException;
+	public String createBatch(String bname, int seat, String coursename) throws CourseException, BatchException;
 
 	public String allocateStudentUnderBatch(int roll, int bid, int cid) throws StudentExcption;
 
-	public String updateTotalSeatinBatch(String bname,int newSeat) throws BatchException;
+	public String updateTotalSeatinBatch(String bname, int newSeat) throws BatchException;
 
 	public List<Student> viewStudentInEveryBatch(String bname) throws BatchException;
 
 	// public String updateFeeByCid(int cid,int fee)throws CourseException;
-
+	public List<Course> getAllCourse() throws CourseException;
 }
