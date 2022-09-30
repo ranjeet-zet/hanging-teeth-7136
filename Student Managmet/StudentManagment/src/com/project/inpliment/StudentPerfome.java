@@ -4,10 +4,12 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
 import com.mysql.cj.xdevapi.PreparableStatement;
+import com.project.Excaption.BatchException;
 import com.project.Excaption.CourseException;
 import com.project.Excaption.StudentExcption;
 import com.project.been.Batch;
@@ -407,9 +409,37 @@ public class StudentPerfome implements StudentInterface {
 	}
 
 	@Override
-	public List<Student> viewStudentInEveryBatch(String bname) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Student> viewStudentInEveryBatch(String bname)throws BatchException {
+		List<Student> students=new ArrayList<>();
+		
+		try (Connection conn = DBC.ProvideConnection()) {
+			
+			PreparedStatement ps1=conn.prepareStatement("select * from batch where bname=?");
+			ps1.setString(1, bname);
+			
+			ResultSet rs=ps1.executeQuery();
+			if(rs.next()) {
+
+				PreparedStatement ps=conn.prepareStatement("select * from student where roll=(select roll from course_batch_student where bid=(select bid from batch where bname=?)) group by name");
+				ps.setString(1, bname);
+				ResultSet rs1=ps.executeQuery();
+				while (rs1.next()) {
+					Student s=new Student();
+					s.setEmail(rs1.getString("email"));
+					s.setMarks(rs1.getInt("marks"));
+					s.setName(rs1.getString("name"));
+					s.setRoll(rs1.getInt("roll"));
+					s.setPass(rs1.getString("password"));
+					students.add(s);
+				}		
+			}else {
+				throw new BatchException("Batch name not Valid...");
+			}		
+		} catch (Exception e) {
+			throw new BatchException(e.getMessage());
+		}
+	
+		return students;
 	}
 
 	@SuppressWarnings("resource")
