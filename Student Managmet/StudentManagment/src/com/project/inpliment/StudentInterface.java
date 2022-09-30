@@ -32,9 +32,9 @@ public interface StudentInterface {
 
 	public String createBatch(String bname,int seat,String coursename) throws CourseException, BatchException;
 
-	public String allocateStudentUnderBatch(String sid, int bid) throws StudentExcption;
+	public String allocateStudentUnderBatch(int roll, int bid, int cid) throws StudentExcption;
 
-	public String updateTotalSeatinBatch(String bname) throws BatchException;
+	public String updateTotalSeatinBatch(String bname,int newSeat) throws BatchException;
 
 	public List<Student> viewStudentInEveryBatch(String bname) throws BatchException;
 

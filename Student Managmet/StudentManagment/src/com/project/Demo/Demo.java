@@ -12,15 +12,9 @@ public class Demo {
 
 		StudentPerfome sp = new StudentPerfome();
 
-		try {
-			String pri = sp.createBatch("fw19", 60, "hybernate");
+		String pri = sp.updateTotalSeatinBatch("fw19",45);
 
-			System.out.println(pri);
-
-		} catch (CourseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		System.out.println(pri);
 
 	}
 
