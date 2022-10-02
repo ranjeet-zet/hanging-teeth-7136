@@ -401,45 +401,46 @@ public class StudentPerfome implements StudentInterface {
 			}
 
 		} catch (Exception e) {
-			ret=e.getMessage();
+			ret = e.getMessage();
 		}
 
 		return ret;
 	}
 
 	@Override
-	public List<Student> viewStudentInEveryBatch(String bname)throws BatchException {
-		List<Student> students=new ArrayList<>();
-		
-		try (Connection conn = DBC.ProvideConnection()) {
-			
-			PreparedStatement ps1=conn.prepareStatement("select * from batch where bname=?");
-			ps1.setString(1, bname);
-			
-			ResultSet rs=ps1.executeQuery();
-			if(rs.next()) {
+	public List<Student> viewStudentInEveryBatch(String bname) throws BatchException {
+		List<Student> students = new ArrayList<>();
 
-				PreparedStatement ps=conn.prepareStatement("select  s.name, s.email, s.password, s.marks, s.roll, csb.bid, csb.roll, b.bid, b.bname from student s INNER JOIN course_batch_student csb ON s.roll=csb.roll INNER JOIN batch b ON csb.bid=b.bid where b.bname=?");
+		try (Connection conn = DBC.ProvideConnection()) {
+
+			PreparedStatement ps1 = conn.prepareStatement("select * from batch where bname=?");
+			ps1.setString(1, bname);
+
+			ResultSet rs = ps1.executeQuery();
+			if (rs.next()) {
+
+				PreparedStatement ps = conn.prepareStatement(
+						"select  s.name, s.email, s.password, s.marks, s.roll, csb.bid, csb.roll, b.bid, b.bname from student s INNER JOIN course_batch_student csb ON s.roll=csb.roll INNER JOIN batch b ON csb.bid=b.bid where b.bname=?");
 				ps.setString(1, bname);
-				ResultSet rs1=ps.executeQuery();
+				ResultSet rs1 = ps.executeQuery();
 				while (rs1.next()) {
-					Student s=new Student();
+					Student s = new Student();
 					s.setEmail(rs1.getString("email"));
 					s.setMarks(rs1.getInt("marks"));
 					s.setName(rs1.getString("name"));
 					s.setRoll(rs1.getInt("roll"));
 					s.setPass(rs1.getString("password"));
-					
+
 					students.add(s);
-					
-				}		
-			}else {
+
+				}
+			} else {
 				throw new BatchException("Batch name not Valid...");
-			}		
+			}
 		} catch (Exception e) {
 			throw new BatchException(e.getMessage());
 		}
-	
+
 		return students;
 	}
 
@@ -511,16 +512,15 @@ public class StudentPerfome implements StudentInterface {
 	@Override
 	public List<Course> getAllCourse() throws CourseException {
 		List<Course> courses = new ArrayList<>();
-		
-		
-		try  (Connection conn = DBC.ProvideConnection()) {
-			PreparedStatement ps=conn.prepareStatement("select * from course");
-			ResultSet rs=ps.executeQuery();
-			while(rs.next()) {
-				int ci=rs.getInt("cid");
-				String cn=rs.getString("cname");
-				int f=rs.getInt("fee");
-				Course cc=new Course(ci, cn, f);
+
+		try (Connection conn = DBC.ProvideConnection()) {
+			PreparedStatement ps = conn.prepareStatement("select * from course");
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()) {
+				int ci = rs.getInt("cid");
+				String cn = rs.getString("cname");
+				int f = rs.getInt("fee");
+				Course cc = new Course(ci, cn, f);
 				courses.add(cc);
 			}
 		} catch (SQLException e) {
