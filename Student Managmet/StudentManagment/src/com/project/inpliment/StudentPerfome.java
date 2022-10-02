@@ -419,7 +419,7 @@ public class StudentPerfome implements StudentInterface {
 			ResultSet rs=ps1.executeQuery();
 			if(rs.next()) {
 
-				PreparedStatement ps=conn.prepareStatement("select * from student where roll=(select roll from course_batch_student where bid=(select bid from batch where bname=?)) group by name");
+				PreparedStatement ps=conn.prepareStatement("select  s.name, s.email, s.password, s.marks, s.roll, csb.bid, csb.roll, b.bid, b.bname from student s INNER JOIN course_batch_student csb ON s.roll=csb.roll INNER JOIN batch b ON csb.bid=b.bid where b.bname=?");
 				ps.setString(1, bname);
 				ResultSet rs1=ps.executeQuery();
 				while (rs1.next()) {
