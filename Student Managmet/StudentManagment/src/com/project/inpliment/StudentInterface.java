@@ -38,6 +38,5 @@ public interface StudentInterface {
 
 	public List<Student> viewStudentInEveryBatch(String bname) throws BatchException;
 
-	// public String updateFeeByCid(int cid,int fee)throws CourseException;
 	public List<Course> getAllCourse() throws CourseException;
 }
